@@ -1,11 +1,14 @@
-var express = require('express'),
-    app = express.createServer();
+var express = require('express');
+var app = express();
 
-app.use(express.logger());
+// app.get('/hello.txt', function(req, res){
+  // res.send('Hello World');
+// });
 
-app.get('/', function(req, res){
-    res.send('Hello World');
+app.get('/', function(req,res) {
+  res.sendfile('public/index.html');
 });
 
-app.listen();
-console.log('Express server started on port %s', app.address().port);
+app.listen(3000);
+console.log('Listening on port 3000');
+

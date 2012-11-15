@@ -1,0 +1,107 @@
+<html>
+
+<head>
+	 <script src="jquery-1.8.2.min.js"></script>
+	 <script src="sorttable.js"></script>
+</head>
+
+
+<body>
+
+	<div>
+		<h3>Please enter your text on the right and click 'calculate'.</h3>
+		<h4>Click on the column titles to sort the results<h4>
+		
+		<div style="float:left; display:inline; width:400">
+			<table id="results" class="sortable">
+				<tr><td>Count</td><td>Word</td></tr>
+			</table>
+		</div>
+
+		<div style="float:right; display:inline; width:700">
+			<textarea id="inputText" rows="30" cols="80"></textarea>
+		</div>
+		
+		<button style="float:right; display:inline; width:100" type="button" onclick="calculate()">Calculate</button>
+
+	</div>
+
+</body>
+
+</html>
+
+<script>
+
+	
+
+	function calculate(){
+		
+		var inputText = document.getElementById('inputText').value;
+		
+		//get array of words
+		var inputs = inputText.split(" ");
+		inputs = trimall(inputs);
+		
+		//prepare result object
+		var results = {};
+		
+		//for each word in inputs add to the results count
+		for (var x=0; x<inputs.length; x++){
+			if (results[inputs[x]] == undefined){
+				results[inputs[x]] = 1;
+			}else{
+				results[inputs[x]] = results[inputs[x]] + 1;
+			}
+		}
+			
+		writeResults(results);
+	}
+	
+	function writeResults(results){
+		var size = 0, key;
+		for (key in this) {
+			if (this.hasOwnProperty(key)) size++;
+		}
+		
+		var x=0;
+		var table = document.getElementById("results");
+		table.innerHTML = "<tr><td>Count</td><td>Word</td></tr>";
+		var rowCount = table.rows.length;
+		
+		for (x in results) {
+		
+			if (isClean(x)){
+				
+		
+				var row = table.insertRow(rowCount);
+				
+				var cell1 = row.insertCell(0);
+				cell1.innerHTML = x;
+				
+				var cell2 = row.insertCell(0);
+				cell2.innerHTML = results[x];
+			
+				rowCount++;
+			
+			}
+		}
+		sorttable.makeSortable(table);
+		var myTH = document.getElementsByTagName("th")[0];
+		sorttable.innerSortFunction.apply(myTH, []);
+	}
+	
+	//Test for letters only
+	function isClean(word){
+		return /^[a-zA-Z]+$/.test(word);
+	}
+	
+	//trim all strings of an arr
+	function trimall(arr){
+		for (var i = 0; i < arr.length; i++) {
+			arr[i] = arr[i].trim();
+		}
+		return arr;
+	}
+	
+	
+</script>
