@@ -23,7 +23,7 @@
 		</div>
 		
 		<button style="float:right; display:inline; width:100" type="button" onclick="calculate()">Calculate</button>
-
+		<input style="float:right; display:inline; width:100" type="checkbox" id="AZOnly" value="AZOnly"> Use Only A-Z a-z<br>
 	</div>
 
 </body>
@@ -90,9 +90,14 @@
 		sorttable.innerSortFunction.apply(myTH, []);
 	}
 	
-	//Test for letters only
+	//test against the checked filters
 	function isClean(word){
-		return /^[a-zA-Z]+$/.test(word);
+		if ($('#AZOnly')[0].checked){
+			if(!/^[a-zA-Z]+$/.test(word)){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	//trim all strings of an arr
