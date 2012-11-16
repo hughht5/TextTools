@@ -1,0 +1,49 @@
+body {
+	margin: 10px;
+}
+
+div#content {
+	/*border: 3px solid red;*/
+}
+
+div#textentry {
+	/*border: 3px solid green;*/
+	display: inline;
+	float: right;
+	width: 78%;
+}
+
+div#preferences {
+	/*border: 3px solid orange;*/
+	width: 20%;
+	float: left;
+}
+
+div#results {
+	/*border: 3px solid cyan;*/
+	width: 20%;
+	margin-top: 10px;
+}
+
+footer {
+	clear: both;
+}
+
+/* Sortable tables */
+table.sortable thead {
+    background-color:#eee;
+    color:#666666;
+    font-weight: bold;
+    cursor: default;
+}
+
+div#textentry textarea {
+	width: 90%;
+	height: 100px;
+}
+
+div#preferences input,
+div#preferences button {
+	display: inline;
+	width: 100px;
+}
