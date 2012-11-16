@@ -1,112 +1,82 @@
+<!doctype html>
 <html>
 
 <head>
-	 <script src="jquery-1.8.2.min.js"></script>
-	 <script src="sorttable.js"></script>
-</head>
 
+	<title>Word Counter</title>
+	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+	
+</head>
 
 <body>
 
-	<div>
-		<h3>Please enter your text on the right and click 'calculate'.</h3>
-		<h4>Click on the column titles to sort the results<h4>
+	<header>
 		
-		<div style="float:left; display:inline; width:400">
-			<table id="results" class="sortable">
-				<tr><td>Count</td><td>Word</td></tr>
+		<h1>Word Counter</h1>
+		
+	</header>
+	
+	<div id="content">
+		
+		<p>Please enter your text on the right and click 'calculate'.</p>
+		
+		<p>Click on the column titles to sort the results</p>
+		
+		<div id="preferences">
+			
+			<h2>Preferences</h2>
+			
+			<fieldset>
+				<label class="checkbox">
+					Use Letters Only <input type="checkbox" id="PrefAZOnly" value="PrefAZOnly">
+				</label>
+				<label class="checkbox">
+					Ignore Case <input type="checkbox" id="PrefIgnoreCase" value="PrefIgnoreCase">
+				</label>
+			</fieldset>
+			
+		</div><!-- #preferences -->
+		
+		<div id="textentry">
+			
+			<h2>Text Entry</h2>
+			
+			<textarea id="inputText"></textarea>
+			
+			<div class="clearfix"></div>
+			
+			<button class="btn btn-success" type="button" onclick="countWords()">Calculate</button>
+			
+		</div>
+		
+		<div id="results">
+			
+			<h2>Results</h2>
+			
+			<table id="word-count-results" class="table  table-striped sortable">
+				<thead>
+					<tr>
+						<th>Count</th>
+						<th>Word</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
 			</table>
-		</div>
-
-		<div style="float:right; display:inline; width:700">
-			<textarea id="inputText" rows="30" cols="80"></textarea>
-		</div>
+		</div><!-- #results -->
 		
-		<button style="float:right; display:inline; width:100" type="button" onclick="calculate()">Calculate</button>
-		<input style="float:right; display:inline; width:100" type="checkbox" id="AZOnly" value="AZOnly"> Use Only A-Za-z<br>
-	</div>
+	</div><!-- #content -->
+		
+	<footer>
+		This project is hosted on <a href="https://github.com/hughht5/TextTools">GitHub</a> and uses the <a href="http://twitter.github.com/bootstrap/">BootStrap framework</a>.
+	</footer>
+	
+	<script src="js/jquery-1.8.2.min.js"></script>
+	<script src="js/sorttable.js"></script>
+	<script src="js/wordCounter.js" ></script>
 
 </body>
 
 </html>
-
-<script>
-
-	
-
-	function calculate(){
-		
-		var inputText = document.getElementById('inputText').value;
-		
-		//get array of words
-		var inputs = inputText.split(" ");
-		inputs = trimall(inputs);
-		
-		//prepare result object
-		var results = {};
-		
-		//for each word in inputs add to the results count
-		for (var x=0; x<inputs.length; x++){
-			if (results[inputs[x]] == undefined){
-				results[inputs[x]] = 1;
-			}else{
-				results[inputs[x]] = results[inputs[x]] + 1;
-			}
-		}
-			
-		writeResults(results);
-	}
-	
-	function writeResults(results){
-		var size = 0, key;
-		for (key in this) {
-			if (this.hasOwnProperty(key)) size++;
-		}
-		
-		var x=0;
-		var table = document.getElementById("results");
-		table.innerHTML = "<tr><td>Count</td><td>Word</td></tr>";
-		var rowCount = table.rows.length;
-		
-		for (x in results) {
-		
-			if (isClean(x)){
-				
-		
-				var row = table.insertRow(rowCount);
-				
-				var cell1 = row.insertCell(0);
-				cell1.innerHTML = x;
-				
-				var cell2 = row.insertCell(0);
-				cell2.innerHTML = results[x];
-			
-				rowCount++;
-			
-			}
-		}
-		sorttable.makeSortable(table);
-		var myTH = document.getElementsByTagName("th")[0];
-		sorttable.innerSortFunction.apply(myTH, []);
-	}
-	
-	//test against the checked filters
-	function isClean(word){
-		if ($('#AZOnly')[0].checked){
-			if(!/^[a-zA-Z]+$/.test(word)){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	//trim all strings of an arr
-	function trimall(arr){
-		for (var i = 0; i < arr.length; i++) {
-			arr[i] = arr[i].trim();
-		}
-		return arr;
-	}
-	
-	
-</script>
