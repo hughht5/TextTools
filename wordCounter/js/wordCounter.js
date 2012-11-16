@@ -1,25 +1,48 @@
-function calculate() {
+var prefs = {};
 
-	var inputText = document.getElementById('inputText').value;
+// Read Preferences
+function readPrefs() {
+	prefs.AZOnly = $('#PrefAZOnly')[0].checked;
+	prefs.ignoreCase = $('#PrefIgnoreCase')[0].checked;
+};
+
+// Calculate work counts
+function countWords() {
+
+	readPrefs();
+
+	console.log(prefs.AZOnly);
+	console.log(prefs.IgnoreCase);
 	
-	console.log(inputText);
 
-	//get array of words
+	var inputText = $('#inputText')[0].value;
+	
+	//console.log(inputText);
+
+	// Get array of words
 	var inputs = inputText.split(" ");
 	inputs = trimall(inputs);
 
-	//prepare result object
+	// Prepare result object
 	var results = {};
-
-	//for each word in inputs add to the results count
-	for (var x=0; x<inputs.length; x++){
-		if (results[inputs[x]] === undefined){
-			results[inputs[x]] = 1;
-		}else{
-			results[inputs[x]] = results[inputs[x]] + 1;
+	
+	// For each word in inputs, add to the results count
+	for (var x=0; x < inputs.length; x++) {
+		
+		var word;
+		if (prefs.ignoreCase) {
+			word = inputs[x].toLowerCase();
+		} else {
+			word = inputs[x];
+		}
+		
+		if (results[word] === undefined) {
+			results[word] = 1;
+		} else {
+			results[word]++;
 		}
 	}
-
+	
 	writeResults(results);
 }
 
@@ -29,16 +52,16 @@ function writeResults(results){
 		if (this.hasOwnProperty(key)) size++;
 	}
 
-	var x=0;
-	var resultsbody = $("#results tbody")[0];
-	resultsbody.innerHTML = "";
-	var rowCount = resultsbody.rows.length;
+	var x = 0;
+	var results_tbody = $("#results tbody")[0];
+	results_tbody.innerHTML = "";
+	var rowCount = results_tbody.rows.length;
 
 	for (x in results) {
 
 		if (isClean(x)){
 
-			var row = resultsbody.insertRow(rowCount);
+			var row = results_tbody.insertRow(rowCount);
 
 			var cell1 = row.insertCell(0);
 			cell1.innerHTML = x;
@@ -50,15 +73,13 @@ function writeResults(results){
 
 		}
 	}
-	sorttable.makeSortable(table);
 	var myTH = $('th')[0];
 	sorttable.innerSortFunction.apply(myTH, []);
 }
 
 //test against the checked filters
 function isClean(word){
-	var prefAZOnly = $('#PrefAZOnly')[0].checked;
-	if (prefAZOnly){
+	if (prefs.AZOnly){
 		if(!/^[a-zA-Z]+$/.test(word)){
 			return false;
 		}
